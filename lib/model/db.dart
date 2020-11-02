@@ -4,7 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:moor/moor.dart';
 import 'dart:io';
 
-// part 'db.g.dart';
+part 'db.g.dart';
 
 class Writers extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -137,13 +137,13 @@ class NovelDetailKeyWords extends Table {
   IntColumn get keyword => integer()();
 }
 
-// LazyDatabase _openConnection() {
-//   return LazyDatabase(() async {
-//     final dbFolder = await getApplicationDocumentsDirectory();
-//     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-//     return VmDatabase(file);
-//   });
-// }
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    return VmDatabase(file);
+  });
+}
 
 @UseMoor(tables: [
   Writers,
@@ -153,19 +153,18 @@ class NovelDetailKeyWords extends Table {
   Illusts,
   KeyWords,
   NovelDetails,
-  NovelDetailKeyWords
+  NovelDetailKeyWords,
 ])
-class NarouPaperDatabase {
-// class NarouPaperDatabase extends _$NarouPaperDatabase {
-  // NarouPaperDatabase._internal() : super(_openConnection());
-  //
-  // factory NarouPaperDatabase() => _narouPaperDatabase;
-  //
-  // static final _narouPaperDatabase = NarouPaperDatabase._internal();
-  //
-  // @override
-  // int get schemaVersion => 1;
-  //
+class NarouPaperDatabase extends _$NarouPaperDatabase {
+  NarouPaperDatabase._internal() : super(_openConnection());
+
+  factory NarouPaperDatabase() => _narouPaperDatabase;
+
+  static final _narouPaperDatabase = NarouPaperDatabase._internal();
+
+  @override
+  int get schemaVersion => 1;
+
   // Future<List<Todo>> get todoList => select(todos).get();
   // Stream<List<Todo>> get todoListStream => (select(todos)
   //       ..orderBy([(todo) => OrderingTerm(expression: todo.priority)]))
