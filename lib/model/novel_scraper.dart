@@ -4,7 +4,7 @@ import 'dart:developer' as developer;
 import 'package:html/parser.dart';
 
 import 'package:narou_paper/model/db.dart';
-import 'common.dart';
+import 'util.dart';
 
 class NovelScraper {
   final ncode;
