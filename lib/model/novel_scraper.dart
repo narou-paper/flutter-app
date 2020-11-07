@@ -12,7 +12,7 @@ class NovelScraper {
   NovelScraper(this.ncode);
 
   Future<Novel> scrape() async {
-    final firstResponse = await Narou.firstRequest(ncode);
+    final firstResponse = await NarouClient.firstRequest(ncode);
     final response = firstResponse.response, isR18 = firstResponse.isR18;
 
     if (response.statusCode == 200) {
