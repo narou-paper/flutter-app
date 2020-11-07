@@ -25,11 +25,16 @@ class NovelScraper {
     }
   }
 
-  Novel _parseNovel(responseBody, bool isR18) {
+  Novel _parseNovel(String responseBody, bool isR18) {
+    var document = parse(responseBody);
+    var title = document
+        .querySelector('#novel_contents > #novel_color > .novel_title')
+        .text;
+
     return Novel(
       ncode: ncode,
       ncodeInt: null,
-      title: 'hoge',
+      title: title,
       writerNickname: 'hoge',
       writer: 0,
       story: null,
