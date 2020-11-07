@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:html/parser.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:narou_paper/model/db.dart';
 import 'common.dart';
@@ -13,16 +12,8 @@ class NovelScraper {
   NovelScraper(this.ncode);
 
   Future<Novel> scrape() async {
-    var response = await http.get('${Narou.baseURL}/$ncode/');
-    bool isR18 = false;
-
-    if (response.statusCode == 301) {
-      final redirectUrl = response.headers['Location'];
-      if (redirectUrl != null && redirectUrl.startsWith(Narou.baseR18Url)) {
-        isR18 = true;
-        response = await http.get(redirectUrl);
-      }
-    }
+    final firstResponse = await Narou.firstRequest(ncode);
+    final response = firstResponse.response, isR18 = firstResponse.isR18;
 
     if (response.statusCode == 200) {
       return _parseNovel(response.body, isR18);
