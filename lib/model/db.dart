@@ -69,8 +69,7 @@ enum RequiredKeyWord {
 }
 
 class NovelDetails extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get novel => integer()();
+  TextColumn get novel => text().withLength(min: 1, max: 10)();
   IntColumn get bigGenre => intEnum<BigGenre>()();
   IntColumn get genre => intEnum<Genre>()();
   DateTimeColumn get firstPublicationDate => dateTime()();
@@ -91,6 +90,9 @@ class NovelDetails extends Table {
   IntColumn get illustNum => integer()();
   IntColumn get talkingRowRate => integer()();
   DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {novel};
 }
 
 enum BigGenre {
@@ -155,25 +157,30 @@ LazyDatabase _openConnection() {
   NovelDetails,
   NovelDetailKeyWords,
 ])
-class NarouPaperDatabase extends _$NarouPaperDatabase {
-  NarouPaperDatabase._internal() : super(_openConnection());
+class NarouDatabase extends _$NarouDatabase {
+  NarouDatabase._internal() : super(_openConnection());
 
-  factory NarouPaperDatabase() => _narouPaperDatabase;
+  factory NarouDatabase() => _narouPaperDatabase;
 
-  static final _narouPaperDatabase = NarouPaperDatabase._internal();
+  static final _narouPaperDatabase = NarouDatabase._internal();
 
   @override
   int get schemaVersion => 1;
 
-  // Future<List<Todo>> get todoList => select(todos).get();
-  // Stream<List<Todo>> get todoListStream => (select(todos)
-  //       ..orderBy([(todo) => OrderingTerm(expression: todo.priority)]))
+  // Future<List<Novel>> get novelList => select(novels).get();
+  // Stream<List<Novel>> get novelListStream => (select(novels)
+  //       ..join([
+  //         innerJoin(
+  //           novelDetails,
+  //           novelDetails.novel.equalsExp(novels.ncode),
+  //           useColumns: false,
+  //         )
+  //       ])
+  //       ..orderBy([(novel) => OrderingTerm.desc(novelDetails.updatedAt)]))
   //     .watch();
-  // Future<List<Category>> get categoryList => select(categories).get();
-  // Future<List<Schedule>> get scheduleList => select(schedules).get();
-  // Future<List<Reminder>> get reminderList => select(reminders).get();
-  //
-  // Future<int> createTodo(TodosCompanion todo) => into(todos).insert(todo);
+  Stream<List<Novel>> get novelListStream => select(novels).watch();
+
+  Future<int> addNovel(NovelsCompanion novel) => into(novels).insert(novel);
   // Future updateTodo(Todo todo) => update(todos).replace(todo);
   // Future deleteTodo(int id) =>
   //     (delete(todos)..where((todo) => todo.id.equals(id))).go();

@@ -2075,8 +2075,7 @@ class $KeyWordsTable extends KeyWords with TableInfo<$KeyWordsTable, KeyWord> {
 }
 
 class NovelDetail extends DataClass implements Insertable<NovelDetail> {
-  final int id;
-  final int novel;
+  final String novel;
   final BigGenre bigGenre;
   final Genre genre;
   final DateTime firstPublicationDate;
@@ -2098,8 +2097,7 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   final int talkingRowRate;
   final DateTime updatedAt;
   NovelDetail(
-      {@required this.id,
-      @required this.novel,
+      {@required this.novel,
       @required this.bigGenre,
       @required this.genre,
       @required this.firstPublicationDate,
@@ -2123,12 +2121,13 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   factory NovelDetail.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
+    final stringType = db.typeSystem.forDartType<String>();
     final intType = db.typeSystem.forDartType<int>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final boolType = db.typeSystem.forDartType<bool>();
     return NovelDetail(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      novel: intType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
+      novel:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
       bigGenre: $NovelDetailsTable.$converter0.mapToDart(
           intType.mapFromDatabaseResponse(data['${effectivePrefix}big_genre'])),
       genre: $NovelDetailsTable.$converter1.mapToDart(
@@ -2173,11 +2172,8 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
     if (!nullToAbsent || novel != null) {
-      map['novel'] = Variable<int>(novel);
+      map['novel'] = Variable<String>(novel);
     }
     if (!nullToAbsent || bigGenre != null) {
       final converter = $NovelDetailsTable.$converter0;
@@ -2247,7 +2243,6 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
 
   NovelDetailsCompanion toCompanion(bool nullToAbsent) {
     return NovelDetailsCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       novel:
           novel == null && nullToAbsent ? const Value.absent() : Value(novel),
       bigGenre: bigGenre == null && nullToAbsent
@@ -2314,8 +2309,7 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return NovelDetail(
-      id: serializer.fromJson<int>(json['id']),
-      novel: serializer.fromJson<int>(json['novel']),
+      novel: serializer.fromJson<String>(json['novel']),
       bigGenre: serializer.fromJson<BigGenre>(json['bigGenre']),
       genre: serializer.fromJson<Genre>(json['genre']),
       firstPublicationDate:
@@ -2344,8 +2338,7 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'novel': serializer.toJson<int>(novel),
+      'novel': serializer.toJson<String>(novel),
       'bigGenre': serializer.toJson<BigGenre>(bigGenre),
       'genre': serializer.toJson<Genre>(genre),
       'firstPublicationDate': serializer.toJson<DateTime>(firstPublicationDate),
@@ -2370,8 +2363,7 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   }
 
   NovelDetail copyWith(
-          {int id,
-          int novel,
+          {String novel,
           BigGenre bigGenre,
           Genre genre,
           DateTime firstPublicationDate,
@@ -2393,7 +2385,6 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
           int talkingRowRate,
           DateTime updatedAt}) =>
       NovelDetail(
-        id: id ?? this.id,
         novel: novel ?? this.novel,
         bigGenre: bigGenre ?? this.bigGenre,
         genre: genre ?? this.genre,
@@ -2419,7 +2410,6 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
   @override
   String toString() {
     return (StringBuffer('NovelDetail(')
-          ..write('id: $id, ')
           ..write('novel: $novel, ')
           ..write('bigGenre: $bigGenre, ')
           ..write('genre: $genre, ')
@@ -2447,55 +2437,54 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
 
   @override
   int get hashCode => $mrjf($mrjc(
-      id.hashCode,
+      novel.hashCode,
       $mrjc(
-          novel.hashCode,
+          bigGenre.hashCode,
           $mrjc(
-              bigGenre.hashCode,
+              genre.hashCode,
               $mrjc(
-                  genre.hashCode,
+                  firstPublicationDate.hashCode,
                   $mrjc(
-                      firstPublicationDate.hashCode,
+                      lastPublicationDate.hashCode,
                       $mrjc(
-                          lastPublicationDate.hashCode,
+                          length.hashCode,
                           $mrjc(
-                              length.hashCode,
+                              isStop.hashCode,
                               $mrjc(
-                                  isStop.hashCode,
+                                  writerDevice.hashCode,
                                   $mrjc(
-                                      writerDevice.hashCode,
+                                      totalPoint.hashCode,
                                       $mrjc(
-                                          totalPoint.hashCode,
+                                          dailyPoint.hashCode,
                                           $mrjc(
-                                              dailyPoint.hashCode,
+                                              weeklyRatingPoint.hashCode,
                                               $mrjc(
-                                                  weeklyRatingPoint.hashCode,
+                                                  monthlyRatingPoint.hashCode,
                                                   $mrjc(
-                                                      monthlyRatingPoint
+                                                      quarterRatingPoint
                                                           .hashCode,
                                                       $mrjc(
-                                                          quarterRatingPoint
+                                                          yearlyRatingPoint
                                                               .hashCode,
                                                           $mrjc(
-                                                              yearlyRatingPoint
+                                                              bookmarkNum
                                                                   .hashCode,
                                                               $mrjc(
-                                                                  bookmarkNum
+                                                                  impressionNum
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      impressionNum
+                                                                      reviewNum
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          reviewNum
+                                                                          allPoint
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              allPoint.hashCode,
-                                                                              $mrjc(illustNum.hashCode, $mrjc(talkingRowRate.hashCode, updatedAt.hashCode))))))))))))))))))))));
+                                                                              illustNum.hashCode,
+                                                                              $mrjc(talkingRowRate.hashCode, updatedAt.hashCode)))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is NovelDetail &&
-          other.id == this.id &&
           other.novel == this.novel &&
           other.bigGenre == this.bigGenre &&
           other.genre == this.genre &&
@@ -2520,8 +2509,7 @@ class NovelDetail extends DataClass implements Insertable<NovelDetail> {
 }
 
 class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
-  final Value<int> id;
-  final Value<int> novel;
+  final Value<String> novel;
   final Value<BigGenre> bigGenre;
   final Value<Genre> genre;
   final Value<DateTime> firstPublicationDate;
@@ -2543,7 +2531,6 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
   final Value<int> talkingRowRate;
   final Value<DateTime> updatedAt;
   const NovelDetailsCompanion({
-    this.id = const Value.absent(),
     this.novel = const Value.absent(),
     this.bigGenre = const Value.absent(),
     this.genre = const Value.absent(),
@@ -2567,8 +2554,7 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
     this.updatedAt = const Value.absent(),
   });
   NovelDetailsCompanion.insert({
-    this.id = const Value.absent(),
-    @required int novel,
+    @required String novel,
     @required BigGenre bigGenre,
     @required Genre genre,
     @required DateTime firstPublicationDate,
@@ -2611,8 +2597,7 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
         talkingRowRate = Value(talkingRowRate),
         updatedAt = Value(updatedAt);
   static Insertable<NovelDetail> custom({
-    Expression<int> id,
-    Expression<int> novel,
+    Expression<String> novel,
     Expression<int> bigGenre,
     Expression<int> genre,
     Expression<DateTime> firstPublicationDate,
@@ -2635,7 +2620,6 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
     Expression<DateTime> updatedAt,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (novel != null) 'novel': novel,
       if (bigGenre != null) 'big_genre': bigGenre,
       if (genre != null) 'genre': genre,
@@ -2665,8 +2649,7 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
   }
 
   NovelDetailsCompanion copyWith(
-      {Value<int> id,
-      Value<int> novel,
+      {Value<String> novel,
       Value<BigGenre> bigGenre,
       Value<Genre> genre,
       Value<DateTime> firstPublicationDate,
@@ -2688,7 +2671,6 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
       Value<int> talkingRowRate,
       Value<DateTime> updatedAt}) {
     return NovelDetailsCompanion(
-      id: id ?? this.id,
       novel: novel ?? this.novel,
       bigGenre: bigGenre ?? this.bigGenre,
       genre: genre ?? this.genre,
@@ -2716,11 +2698,8 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (novel.present) {
-      map['novel'] = Variable<int>(novel.value);
+      map['novel'] = Variable<String>(novel.value);
     }
     if (bigGenre.present) {
       final converter = $NovelDetailsTable.$converter0;
@@ -2794,7 +2773,6 @@ class NovelDetailsCompanion extends UpdateCompanion<NovelDetail> {
   @override
   String toString() {
     return (StringBuffer('NovelDetailsCompanion(')
-          ..write('id: $id, ')
           ..write('novel: $novel, ')
           ..write('bigGenre: $bigGenre, ')
           ..write('genre: $genre, ')
@@ -2826,25 +2804,13 @@ class $NovelDetailsTable extends NovelDetails
   final GeneratedDatabase _db;
   final String _alias;
   $NovelDetailsTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
-  @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
   final VerificationMeta _novelMeta = const VerificationMeta('novel');
-  GeneratedIntColumn _novel;
+  GeneratedTextColumn _novel;
   @override
-  GeneratedIntColumn get novel => _novel ??= _constructNovel();
-  GeneratedIntColumn _constructNovel() {
-    return GeneratedIntColumn(
-      'novel',
-      $tableName,
-      false,
-    );
+  GeneratedTextColumn get novel => _novel ??= _constructNovel();
+  GeneratedTextColumn _constructNovel() {
+    return GeneratedTextColumn('novel', $tableName, false,
+        minTextLength: 1, maxTextLength: 10);
   }
 
   final VerificationMeta _bigGenreMeta = const VerificationMeta('bigGenre');
@@ -3109,7 +3075,6 @@ class $NovelDetailsTable extends NovelDetails
 
   @override
   List<GeneratedColumn> get $columns => [
-        id,
         novel,
         bigGenre,
         genre,
@@ -3143,9 +3108,6 @@ class $NovelDetailsTable extends NovelDetails
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
     if (data.containsKey('novel')) {
       context.handle(
           _novelMeta, novel.isAcceptableOrUnknown(data['novel'], _novelMeta));
@@ -3283,7 +3245,7 @@ class $NovelDetailsTable extends NovelDetails
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {novel};
   @override
   NovelDetail map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -3511,9 +3473,8 @@ class $NovelDetailKeyWordsTable extends NovelDetailKeyWords
   }
 }
 
-abstract class _$NarouPaperDatabase extends GeneratedDatabase {
-  _$NarouPaperDatabase(QueryExecutor e)
-      : super(SqlTypeSystem.defaultInstance, e);
+abstract class _$NarouDatabase extends GeneratedDatabase {
+  _$NarouDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $WritersTable _writers;
   $WritersTable get writers => _writers ??= $WritersTable(this);
   $NovelsTable _novels;
