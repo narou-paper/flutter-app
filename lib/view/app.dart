@@ -1,8 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:narou_paper/view_model/app.dart';
 import 'package:provider/provider.dart';
+
+import 'package:narou_paper/view_model/app.dart';
+import 'novel_import_dialog.dart';
+import 'novel_list.dart';
 
 class NarouPaperApp extends StatelessWidget {
   @override
@@ -21,10 +22,7 @@ class NarouPaperApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: ChangeNotifierProvider(
-        create: (_) => NarouPagerAppViewModel(SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) =>
-              Text(Random.secure().nextInt(10000).toString())),
-        )),
+        create: (_) => NarouPagerAppViewModel(NovelList()),
         child: Scaffold(
           body: _ScrollWidget(),
           drawer: _DrawerWidget(),
@@ -90,7 +88,9 @@ class _DrawerWidget extends StatelessWidget {
 class _FabWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => showDialog(
+            context: context,
+            builder: (BuildContext context) => NovelImportDialog()),
         child: const Icon(Icons.add),
       );
 }
