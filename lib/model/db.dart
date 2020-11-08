@@ -20,6 +20,7 @@ class Novels extends Table {
   IntColumn get writer => integer()();
   TextColumn get story => text().nullable()();
   BoolColumn get isSerial => boolean()();
+  IntColumn get readEpisodeCount => integer().withDefault(const Constant(0))();
   IntColumn get maxEpisodeNum => integer()();
 
   @override

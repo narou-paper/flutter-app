@@ -7,6 +7,6 @@ class NovelsRepository {
 
   static void addNovel(String ncode) async {
     final novel = await NovelScraper(ncode).scrape();
-    NarouDatabase().addNovel(novel.toCompanion(true));
+    NarouDatabase().addNovel(novel.toCompanion(false));
   }
 }

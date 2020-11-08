@@ -238,6 +238,7 @@ class Novel extends DataClass implements Insertable<Novel> {
   final int writer;
   final String story;
   final bool isSerial;
+  final int readEpisodeCount;
   final int maxEpisodeNum;
   Novel(
       {@required this.ncode,
@@ -247,6 +248,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       @required this.writer,
       this.story,
       @required this.isSerial,
+      @required this.readEpisodeCount,
       @required this.maxEpisodeNum});
   factory Novel.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -268,6 +270,8 @@ class Novel extends DataClass implements Insertable<Novel> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}story']),
       isSerial:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_serial']),
+      readEpisodeCount: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}read_episode_count']),
       maxEpisodeNum: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}max_episode_num']),
     );
@@ -296,6 +300,9 @@ class Novel extends DataClass implements Insertable<Novel> {
     if (!nullToAbsent || isSerial != null) {
       map['is_serial'] = Variable<bool>(isSerial);
     }
+    if (!nullToAbsent || readEpisodeCount != null) {
+      map['read_episode_count'] = Variable<int>(readEpisodeCount);
+    }
     if (!nullToAbsent || maxEpisodeNum != null) {
       map['max_episode_num'] = Variable<int>(maxEpisodeNum);
     }
@@ -321,6 +328,9 @@ class Novel extends DataClass implements Insertable<Novel> {
       isSerial: isSerial == null && nullToAbsent
           ? const Value.absent()
           : Value(isSerial),
+      readEpisodeCount: readEpisodeCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(readEpisodeCount),
       maxEpisodeNum: maxEpisodeNum == null && nullToAbsent
           ? const Value.absent()
           : Value(maxEpisodeNum),
@@ -338,6 +348,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       writer: serializer.fromJson<int>(json['writer']),
       story: serializer.fromJson<String>(json['story']),
       isSerial: serializer.fromJson<bool>(json['isSerial']),
+      readEpisodeCount: serializer.fromJson<int>(json['readEpisodeCount']),
       maxEpisodeNum: serializer.fromJson<int>(json['maxEpisodeNum']),
     );
   }
@@ -352,6 +363,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       'writer': serializer.toJson<int>(writer),
       'story': serializer.toJson<String>(story),
       'isSerial': serializer.toJson<bool>(isSerial),
+      'readEpisodeCount': serializer.toJson<int>(readEpisodeCount),
       'maxEpisodeNum': serializer.toJson<int>(maxEpisodeNum),
     };
   }
@@ -364,6 +376,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           int writer,
           String story,
           bool isSerial,
+          int readEpisodeCount,
           int maxEpisodeNum}) =>
       Novel(
         ncode: ncode ?? this.ncode,
@@ -373,6 +386,7 @@ class Novel extends DataClass implements Insertable<Novel> {
         writer: writer ?? this.writer,
         story: story ?? this.story,
         isSerial: isSerial ?? this.isSerial,
+        readEpisodeCount: readEpisodeCount ?? this.readEpisodeCount,
         maxEpisodeNum: maxEpisodeNum ?? this.maxEpisodeNum,
       );
   @override
@@ -385,6 +399,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           ..write('writer: $writer, ')
           ..write('story: $story, ')
           ..write('isSerial: $isSerial, ')
+          ..write('readEpisodeCount: $readEpisodeCount, ')
           ..write('maxEpisodeNum: $maxEpisodeNum')
           ..write(')'))
         .toString();
@@ -404,7 +419,9 @@ class Novel extends DataClass implements Insertable<Novel> {
                       $mrjc(
                           story.hashCode,
                           $mrjc(
-                              isSerial.hashCode, maxEpisodeNum.hashCode))))))));
+                              isSerial.hashCode,
+                              $mrjc(readEpisodeCount.hashCode,
+                                  maxEpisodeNum.hashCode)))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -416,6 +433,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           other.writer == this.writer &&
           other.story == this.story &&
           other.isSerial == this.isSerial &&
+          other.readEpisodeCount == this.readEpisodeCount &&
           other.maxEpisodeNum == this.maxEpisodeNum);
 }
 
@@ -427,6 +445,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
   final Value<int> writer;
   final Value<String> story;
   final Value<bool> isSerial;
+  final Value<int> readEpisodeCount;
   final Value<int> maxEpisodeNum;
   const NovelsCompanion({
     this.ncode = const Value.absent(),
@@ -436,6 +455,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     this.writer = const Value.absent(),
     this.story = const Value.absent(),
     this.isSerial = const Value.absent(),
+    this.readEpisodeCount = const Value.absent(),
     this.maxEpisodeNum = const Value.absent(),
   });
   NovelsCompanion.insert({
@@ -446,6 +466,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     @required int writer,
     this.story = const Value.absent(),
     @required bool isSerial,
+    this.readEpisodeCount = const Value.absent(),
     @required int maxEpisodeNum,
   })  : ncode = Value(ncode),
         title = Value(title),
@@ -461,6 +482,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     Expression<int> writer,
     Expression<String> story,
     Expression<bool> isSerial,
+    Expression<int> readEpisodeCount,
     Expression<int> maxEpisodeNum,
   }) {
     return RawValuesInsertable({
@@ -471,6 +493,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       if (writer != null) 'writer': writer,
       if (story != null) 'story': story,
       if (isSerial != null) 'is_serial': isSerial,
+      if (readEpisodeCount != null) 'read_episode_count': readEpisodeCount,
       if (maxEpisodeNum != null) 'max_episode_num': maxEpisodeNum,
     });
   }
@@ -483,6 +506,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       Value<int> writer,
       Value<String> story,
       Value<bool> isSerial,
+      Value<int> readEpisodeCount,
       Value<int> maxEpisodeNum}) {
     return NovelsCompanion(
       ncode: ncode ?? this.ncode,
@@ -492,6 +516,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       writer: writer ?? this.writer,
       story: story ?? this.story,
       isSerial: isSerial ?? this.isSerial,
+      readEpisodeCount: readEpisodeCount ?? this.readEpisodeCount,
       maxEpisodeNum: maxEpisodeNum ?? this.maxEpisodeNum,
     );
   }
@@ -520,6 +545,9 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     if (isSerial.present) {
       map['is_serial'] = Variable<bool>(isSerial.value);
     }
+    if (readEpisodeCount.present) {
+      map['read_episode_count'] = Variable<int>(readEpisodeCount.value);
+    }
     if (maxEpisodeNum.present) {
       map['max_episode_num'] = Variable<int>(maxEpisodeNum.value);
     }
@@ -536,6 +564,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
           ..write('writer: $writer, ')
           ..write('story: $story, ')
           ..write('isSerial: $isSerial, ')
+          ..write('readEpisodeCount: $readEpisodeCount, ')
           ..write('maxEpisodeNum: $maxEpisodeNum')
           ..write(')'))
         .toString();
@@ -623,6 +652,17 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
     );
   }
 
+  final VerificationMeta _readEpisodeCountMeta =
+      const VerificationMeta('readEpisodeCount');
+  GeneratedIntColumn _readEpisodeCount;
+  @override
+  GeneratedIntColumn get readEpisodeCount =>
+      _readEpisodeCount ??= _constructReadEpisodeCount();
+  GeneratedIntColumn _constructReadEpisodeCount() {
+    return GeneratedIntColumn('read_episode_count', $tableName, false,
+        defaultValue: const Constant(0));
+  }
+
   final VerificationMeta _maxEpisodeNumMeta =
       const VerificationMeta('maxEpisodeNum');
   GeneratedIntColumn _maxEpisodeNum;
@@ -646,6 +686,7 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
         writer,
         story,
         isSerial,
+        readEpisodeCount,
         maxEpisodeNum
       ];
   @override
@@ -698,6 +739,12 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
           isSerial.isAcceptableOrUnknown(data['is_serial'], _isSerialMeta));
     } else if (isInserting) {
       context.missing(_isSerialMeta);
+    }
+    if (data.containsKey('read_episode_count')) {
+      context.handle(
+          _readEpisodeCountMeta,
+          readEpisodeCount.isAcceptableOrUnknown(
+              data['read_episode_count'], _readEpisodeCountMeta));
     }
     if (data.containsKey('max_episode_num')) {
       context.handle(

@@ -39,6 +39,7 @@ class NovelScraper {
       writer: 0,
       story: null,
       isSerial: true,
+      readEpisodeCount: 0,
       maxEpisodeNum: 1,
     );
   }

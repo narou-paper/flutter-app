@@ -15,10 +15,7 @@ class NovelList extends StatelessWidget {
                 (BuildContext context, int index) {
                   final itemIndex = index ~/ 2;
                   if (index.isEven)
-                    return ListTile(
-                      title: Text(novelList[itemIndex].title),
-                      onTap: () {},
-                    );
+                    return NovelListTile(novelList[itemIndex]);
                   else
                     return Divider(
                       height: 0,
@@ -35,4 +32,25 @@ class NovelList extends StatelessWidget {
           },
         ),
       );
+}
+
+class NovelListTile extends StatelessWidget {
+  final Novel novel;
+
+  NovelListTile(this.novel);
+
+  @override
+  Widget build(BuildContext context) {
+    final serialText = novel.isSerial
+        ? '連載中: ${novel.readEpisodeCount}/${novel.maxEpisodeNum}'
+        : '短編';
+    final subtitle = '作者: ${novel.writerNickname}, $serialText';
+
+    return ListTile(
+      title: Text(novel.title),
+      subtitle: Text(subtitle),
+      trailing: Icon(Icons.more_vert),
+      onTap: () {},
+    );
+  }
 }
