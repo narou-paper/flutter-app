@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 import 'package:narou_paper/view_model/app.dart';
+import 'database_rebuild_dialog.dart';
 import 'novel_import_dialog.dart';
 import 'novel_list.dart';
 
@@ -52,35 +54,50 @@ class _ScrollWidget extends StatelessWidget {
 }
 
 class _DrawerWidget extends StatelessWidget {
+  List<Widget> _drawerWidgets(BuildContext context) => <Widget>[
+        DrawerHeader(
+          child: Text(
+            'NarouPaper',
+            style: Theme.of(context).primaryTextTheme.headline5,
+          ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.library_books),
+          title: const Text('Novel List'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text('Settings'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ];
+
+  Widget _debugListTile(BuildContext context) => ListTile(
+        leading: const Icon(Icons.delete_forever),
+        title: const Text('Delete Database'),
+        onTap: () {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => DatabaseRebuildDialog(),
+          );
+        },
+      );
+
   @override
   Widget build(BuildContext context) => Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'NarouPaper',
-                style: Theme.of(context).primaryTextTheme.headline5,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.library_books),
-              title: const Text('Novel List'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+          children: _drawerWidgets(context) +
+              [foundation.kDebugMode ? _debugListTile(context) : null],
         ),
       );
 }
