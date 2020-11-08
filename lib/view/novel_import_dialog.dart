@@ -7,7 +7,7 @@ class NovelImportDialog extends StatelessWidget {
   String _ncodeValidator(String ncode) =>
       (RegExp(r'^[nN]\d{4}[a-zA-Z]{2}$').hasMatch(ncode))
           ? null
-          : 'Nコードの形式に合わせてください。複数入力はできません。';
+          : 'Nコードの形式に合わせてください\n複数入力はできません';
 
   @override
   Widget build(BuildContext context) =>
@@ -23,6 +23,7 @@ class NovelImportDialog extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'n1234ab',
                   labelText: 'Nコード',
+                  errorMaxLines: 2,
                 ),
                 maxLength: 7,
                 onSaved: (String ncode) =>
