@@ -3,7 +3,7 @@ import 'dart:developer' as developer;
 
 import 'package:html/parser.dart';
 
-import 'package:narou_paper/model/db.dart';
+import 'db.dart';
 import 'util.dart';
 
 class NovelScraper {
@@ -14,28 +14,37 @@ class NovelScraper {
   Future<Novel> scrape() async {
     final firstResponse = await NarouClient.firstRequest(ncode);
     final response = firstResponse.response, isR18 = firstResponse.isR18;
+    final scope = 'novel${(isR18 ? '(R18)' : '')} $ncode scraper';
 
     if (response.statusCode == 200) {
-      return _parseNovel(response.body, isR18);
+      return _parseNovel(response.body, isR18, scope);
     } else {
       final message = 'Request failed with status: ${response.statusCode}.';
-      final name = 'novel${(isR18 ? '(R18)' : '')} $ncode scraper';
-      developer.log(message, name: name, error: jsonEncode(response));
-      throw Exception('$message in $name');
+      developer.log(message, name: scope, error: jsonEncode(response));
+      throw Exception('$message in $scope');
     }
   }
 
-  Novel _parseNovel(String responseBody, bool isR18) {
-    var document = parse(responseBody);
-    var title = document
-        .querySelector('#novel_contents > #novel_color > .novel_title')
-        .text;
+  Novel _parseNovel(String responseBody, bool isR18, String scope) {
+    final document = parse(responseBody);
+    final novelColorFragment =
+        document.querySelector('#novel_contents > #novel_color');
+    final title = novelColorFragment.querySelector('.novel_title').text;
+    var writerNickname =
+        novelColorFragment.querySelector('.novel_writername > a')?.text;
+    if (writerNickname == null || writerNickname.isEmpty) {
+      writerNickname = novelColorFragment
+          .querySelector('.novel_writername')
+          .text
+          .split('：')
+          .elementAt(1);
+    }
 
     return Novel(
       ncode: ncode,
       ncodeInt: null,
       title: title,
-      writerNickname: 'hoge',
+      writerNickname: writerNickname,
       writer: 0,
       story: null,
       isSerial: true,
