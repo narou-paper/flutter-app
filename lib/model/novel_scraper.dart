@@ -44,7 +44,8 @@ class NovelScraper {
           .querySelector('.novel_writername')
           .text
           .split('：')
-          .elementAt(1);
+          .elementAt(1)
+          .trim();
     }
 
     return Novel(
