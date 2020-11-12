@@ -2,7 +2,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 
 import 'db.dart';
-import 'util.dart';
+import 'client.dart';
 
 class EpisodeScraper {
   final String ncode;

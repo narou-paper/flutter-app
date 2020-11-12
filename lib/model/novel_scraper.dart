@@ -3,7 +3,7 @@ import 'package:html/parser.dart';
 import 'package:moor/moor.dart';
 
 import 'db.dart';
-import 'util.dart';
+import 'client.dart';
 import 'episode_scraper.dart';
 
 class NovelScraper {

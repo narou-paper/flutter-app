@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:narou_paper/model/util.dart';
+import 'package:narou_paper/model/client.dart';
 
 void main() {
   const ncodeShanfro = 'n6169dz';
