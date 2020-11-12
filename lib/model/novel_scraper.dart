@@ -6,8 +6,15 @@ import 'package:html/parser.dart';
 import 'db.dart';
 import 'util.dart';
 
+// class NovelScrapedObject {
+//   final Novel novel;
+//   final Writer writer;
+//
+//   NovelScrapedObject(this.novel, this.writer);
+// }
+
 class NovelScraper {
-  final ncode;
+  final String ncode;
 
   NovelScraper(this.ncode);
 
