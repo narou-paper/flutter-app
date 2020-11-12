@@ -237,6 +237,7 @@ class Novel extends DataClass implements Insertable<Novel> {
   final String writerNickname;
   final int writer;
   final String story;
+  final bool isR18;
   final bool isSerial;
   final int readEpisodeCount;
   final int maxEpisodeNum;
@@ -247,6 +248,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       @required this.writerNickname,
       @required this.writer,
       this.story,
+      @required this.isR18,
       @required this.isSerial,
       @required this.readEpisodeCount,
       @required this.maxEpisodeNum});
@@ -268,6 +270,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       writer: intType.mapFromDatabaseResponse(data['${effectivePrefix}writer']),
       story:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}story']),
+      isR18: boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_r18']),
       isSerial:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_serial']),
       readEpisodeCount: intType.mapFromDatabaseResponse(
@@ -297,6 +300,9 @@ class Novel extends DataClass implements Insertable<Novel> {
     if (!nullToAbsent || story != null) {
       map['story'] = Variable<String>(story);
     }
+    if (!nullToAbsent || isR18 != null) {
+      map['is_r18'] = Variable<bool>(isR18);
+    }
     if (!nullToAbsent || isSerial != null) {
       map['is_serial'] = Variable<bool>(isSerial);
     }
@@ -325,6 +331,8 @@ class Novel extends DataClass implements Insertable<Novel> {
           writer == null && nullToAbsent ? const Value.absent() : Value(writer),
       story:
           story == null && nullToAbsent ? const Value.absent() : Value(story),
+      isR18:
+          isR18 == null && nullToAbsent ? const Value.absent() : Value(isR18),
       isSerial: isSerial == null && nullToAbsent
           ? const Value.absent()
           : Value(isSerial),
@@ -347,6 +355,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       writerNickname: serializer.fromJson<String>(json['writerNickname']),
       writer: serializer.fromJson<int>(json['writer']),
       story: serializer.fromJson<String>(json['story']),
+      isR18: serializer.fromJson<bool>(json['isR18']),
       isSerial: serializer.fromJson<bool>(json['isSerial']),
       readEpisodeCount: serializer.fromJson<int>(json['readEpisodeCount']),
       maxEpisodeNum: serializer.fromJson<int>(json['maxEpisodeNum']),
@@ -362,6 +371,7 @@ class Novel extends DataClass implements Insertable<Novel> {
       'writerNickname': serializer.toJson<String>(writerNickname),
       'writer': serializer.toJson<int>(writer),
       'story': serializer.toJson<String>(story),
+      'isR18': serializer.toJson<bool>(isR18),
       'isSerial': serializer.toJson<bool>(isSerial),
       'readEpisodeCount': serializer.toJson<int>(readEpisodeCount),
       'maxEpisodeNum': serializer.toJson<int>(maxEpisodeNum),
@@ -375,6 +385,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           String writerNickname,
           int writer,
           String story,
+          bool isR18,
           bool isSerial,
           int readEpisodeCount,
           int maxEpisodeNum}) =>
@@ -385,6 +396,7 @@ class Novel extends DataClass implements Insertable<Novel> {
         writerNickname: writerNickname ?? this.writerNickname,
         writer: writer ?? this.writer,
         story: story ?? this.story,
+        isR18: isR18 ?? this.isR18,
         isSerial: isSerial ?? this.isSerial,
         readEpisodeCount: readEpisodeCount ?? this.readEpisodeCount,
         maxEpisodeNum: maxEpisodeNum ?? this.maxEpisodeNum,
@@ -398,6 +410,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           ..write('writerNickname: $writerNickname, ')
           ..write('writer: $writer, ')
           ..write('story: $story, ')
+          ..write('isR18: $isR18, ')
           ..write('isSerial: $isSerial, ')
           ..write('readEpisodeCount: $readEpisodeCount, ')
           ..write('maxEpisodeNum: $maxEpisodeNum')
@@ -419,9 +432,11 @@ class Novel extends DataClass implements Insertable<Novel> {
                       $mrjc(
                           story.hashCode,
                           $mrjc(
-                              isSerial.hashCode,
-                              $mrjc(readEpisodeCount.hashCode,
-                                  maxEpisodeNum.hashCode)))))))));
+                              isR18.hashCode,
+                              $mrjc(
+                                  isSerial.hashCode,
+                                  $mrjc(readEpisodeCount.hashCode,
+                                      maxEpisodeNum.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -432,6 +447,7 @@ class Novel extends DataClass implements Insertable<Novel> {
           other.writerNickname == this.writerNickname &&
           other.writer == this.writer &&
           other.story == this.story &&
+          other.isR18 == this.isR18 &&
           other.isSerial == this.isSerial &&
           other.readEpisodeCount == this.readEpisodeCount &&
           other.maxEpisodeNum == this.maxEpisodeNum);
@@ -444,6 +460,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
   final Value<String> writerNickname;
   final Value<int> writer;
   final Value<String> story;
+  final Value<bool> isR18;
   final Value<bool> isSerial;
   final Value<int> readEpisodeCount;
   final Value<int> maxEpisodeNum;
@@ -454,6 +471,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     this.writerNickname = const Value.absent(),
     this.writer = const Value.absent(),
     this.story = const Value.absent(),
+    this.isR18 = const Value.absent(),
     this.isSerial = const Value.absent(),
     this.readEpisodeCount = const Value.absent(),
     this.maxEpisodeNum = const Value.absent(),
@@ -465,6 +483,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     @required String writerNickname,
     @required int writer,
     this.story = const Value.absent(),
+    @required bool isR18,
     @required bool isSerial,
     this.readEpisodeCount = const Value.absent(),
     @required int maxEpisodeNum,
@@ -472,6 +491,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
         title = Value(title),
         writerNickname = Value(writerNickname),
         writer = Value(writer),
+        isR18 = Value(isR18),
         isSerial = Value(isSerial),
         maxEpisodeNum = Value(maxEpisodeNum);
   static Insertable<Novel> custom({
@@ -481,6 +501,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     Expression<String> writerNickname,
     Expression<int> writer,
     Expression<String> story,
+    Expression<bool> isR18,
     Expression<bool> isSerial,
     Expression<int> readEpisodeCount,
     Expression<int> maxEpisodeNum,
@@ -492,6 +513,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       if (writerNickname != null) 'writer_nickname': writerNickname,
       if (writer != null) 'writer': writer,
       if (story != null) 'story': story,
+      if (isR18 != null) 'is_r18': isR18,
       if (isSerial != null) 'is_serial': isSerial,
       if (readEpisodeCount != null) 'read_episode_count': readEpisodeCount,
       if (maxEpisodeNum != null) 'max_episode_num': maxEpisodeNum,
@@ -505,6 +527,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       Value<String> writerNickname,
       Value<int> writer,
       Value<String> story,
+      Value<bool> isR18,
       Value<bool> isSerial,
       Value<int> readEpisodeCount,
       Value<int> maxEpisodeNum}) {
@@ -515,6 +538,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
       writerNickname: writerNickname ?? this.writerNickname,
       writer: writer ?? this.writer,
       story: story ?? this.story,
+      isR18: isR18 ?? this.isR18,
       isSerial: isSerial ?? this.isSerial,
       readEpisodeCount: readEpisodeCount ?? this.readEpisodeCount,
       maxEpisodeNum: maxEpisodeNum ?? this.maxEpisodeNum,
@@ -542,6 +566,9 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
     if (story.present) {
       map['story'] = Variable<String>(story.value);
     }
+    if (isR18.present) {
+      map['is_r18'] = Variable<bool>(isR18.value);
+    }
     if (isSerial.present) {
       map['is_serial'] = Variable<bool>(isSerial.value);
     }
@@ -563,6 +590,7 @@ class NovelsCompanion extends UpdateCompanion<Novel> {
           ..write('writerNickname: $writerNickname, ')
           ..write('writer: $writer, ')
           ..write('story: $story, ')
+          ..write('isR18: $isR18, ')
           ..write('isSerial: $isSerial, ')
           ..write('readEpisodeCount: $readEpisodeCount, ')
           ..write('maxEpisodeNum: $maxEpisodeNum')
@@ -640,6 +668,18 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
     );
   }
 
+  final VerificationMeta _isR18Meta = const VerificationMeta('isR18');
+  GeneratedBoolColumn _isR18;
+  @override
+  GeneratedBoolColumn get isR18 => _isR18 ??= _constructIsR18();
+  GeneratedBoolColumn _constructIsR18() {
+    return GeneratedBoolColumn(
+      'is_r18',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _isSerialMeta = const VerificationMeta('isSerial');
   GeneratedBoolColumn _isSerial;
   @override
@@ -685,6 +725,7 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
         writerNickname,
         writer,
         story,
+        isR18,
         isSerial,
         readEpisodeCount,
         maxEpisodeNum
@@ -734,6 +775,12 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
       context.handle(
           _storyMeta, story.isAcceptableOrUnknown(data['story'], _storyMeta));
     }
+    if (data.containsKey('is_r18')) {
+      context.handle(
+          _isR18Meta, isR18.isAcceptableOrUnknown(data['is_r18'], _isR18Meta));
+    } else if (isInserting) {
+      context.missing(_isR18Meta);
+    }
     if (data.containsKey('is_serial')) {
       context.handle(_isSerialMeta,
           isSerial.isAcceptableOrUnknown(data['is_serial'], _isSerialMeta));
@@ -773,9 +820,14 @@ class $NovelsTable extends Novels with TableInfo<$NovelsTable, Novel> {
 
 class Chapter extends DataClass implements Insertable<Chapter> {
   final int id;
-  final int novel;
+  final String novel;
+  final int number;
   final String name;
-  Chapter({@required this.id, @required this.novel, @required this.name});
+  Chapter(
+      {@required this.id,
+      @required this.novel,
+      @required this.number,
+      @required this.name});
   factory Chapter.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -783,7 +835,9 @@ class Chapter extends DataClass implements Insertable<Chapter> {
     final stringType = db.typeSystem.forDartType<String>();
     return Chapter(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      novel: intType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
+      novel:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
+      number: intType.mapFromDatabaseResponse(data['${effectivePrefix}number']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
@@ -794,7 +848,10 @@ class Chapter extends DataClass implements Insertable<Chapter> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || novel != null) {
-      map['novel'] = Variable<int>(novel);
+      map['novel'] = Variable<String>(novel);
+    }
+    if (!nullToAbsent || number != null) {
+      map['number'] = Variable<int>(number);
     }
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
@@ -807,6 +864,8 @@ class Chapter extends DataClass implements Insertable<Chapter> {
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       novel:
           novel == null && nullToAbsent ? const Value.absent() : Value(novel),
+      number:
+          number == null && nullToAbsent ? const Value.absent() : Value(number),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
     );
   }
@@ -816,7 +875,8 @@ class Chapter extends DataClass implements Insertable<Chapter> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Chapter(
       id: serializer.fromJson<int>(json['id']),
-      novel: serializer.fromJson<int>(json['novel']),
+      novel: serializer.fromJson<String>(json['novel']),
+      number: serializer.fromJson<int>(json['number']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -825,14 +885,16 @@ class Chapter extends DataClass implements Insertable<Chapter> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'novel': serializer.toJson<int>(novel),
+      'novel': serializer.toJson<String>(novel),
+      'number': serializer.toJson<int>(number),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  Chapter copyWith({int id, int novel, String name}) => Chapter(
+  Chapter copyWith({int id, String novel, int number, String name}) => Chapter(
         id: id ?? this.id,
         novel: novel ?? this.novel,
+        number: number ?? this.number,
         name: name ?? this.name,
       );
   @override
@@ -840,55 +902,67 @@ class Chapter extends DataClass implements Insertable<Chapter> {
     return (StringBuffer('Chapter(')
           ..write('id: $id, ')
           ..write('novel: $novel, ')
+          ..write('number: $number, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(novel.hashCode, name.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode,
+      $mrjc(novel.hashCode, $mrjc(number.hashCode, name.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Chapter &&
           other.id == this.id &&
           other.novel == this.novel &&
+          other.number == this.number &&
           other.name == this.name);
 }
 
 class ChaptersCompanion extends UpdateCompanion<Chapter> {
   final Value<int> id;
-  final Value<int> novel;
+  final Value<String> novel;
+  final Value<int> number;
   final Value<String> name;
   const ChaptersCompanion({
     this.id = const Value.absent(),
     this.novel = const Value.absent(),
+    this.number = const Value.absent(),
     this.name = const Value.absent(),
   });
   ChaptersCompanion.insert({
     this.id = const Value.absent(),
-    @required int novel,
+    @required String novel,
+    @required int number,
     @required String name,
   })  : novel = Value(novel),
+        number = Value(number),
         name = Value(name);
   static Insertable<Chapter> custom({
     Expression<int> id,
-    Expression<int> novel,
+    Expression<String> novel,
+    Expression<int> number,
     Expression<String> name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (novel != null) 'novel': novel,
+      if (number != null) 'number': number,
       if (name != null) 'name': name,
     });
   }
 
   ChaptersCompanion copyWith(
-      {Value<int> id, Value<int> novel, Value<String> name}) {
+      {Value<int> id,
+      Value<String> novel,
+      Value<int> number,
+      Value<String> name}) {
     return ChaptersCompanion(
       id: id ?? this.id,
       novel: novel ?? this.novel,
+      number: number ?? this.number,
       name: name ?? this.name,
     );
   }
@@ -900,7 +974,10 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
       map['id'] = Variable<int>(id.value);
     }
     if (novel.present) {
-      map['novel'] = Variable<int>(novel.value);
+      map['novel'] = Variable<String>(novel.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<int>(number.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -913,6 +990,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     return (StringBuffer('ChaptersCompanion(')
           ..write('id: $id, ')
           ..write('novel: $novel, ')
+          ..write('number: $number, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
@@ -933,12 +1011,24 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
   }
 
   final VerificationMeta _novelMeta = const VerificationMeta('novel');
-  GeneratedIntColumn _novel;
+  GeneratedTextColumn _novel;
   @override
-  GeneratedIntColumn get novel => _novel ??= _constructNovel();
-  GeneratedIntColumn _constructNovel() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get novel => _novel ??= _constructNovel();
+  GeneratedTextColumn _constructNovel() {
+    return GeneratedTextColumn(
       'novel',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _numberMeta = const VerificationMeta('number');
+  GeneratedIntColumn _number;
+  @override
+  GeneratedIntColumn get number => _number ??= _constructNumber();
+  GeneratedIntColumn _constructNumber() {
+    return GeneratedIntColumn(
+      'number',
       $tableName,
       false,
     );
@@ -954,7 +1044,7 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, novel, name];
+  List<GeneratedColumn> get $columns => [id, novel, number, name];
   @override
   $ChaptersTable get asDslTable => this;
   @override
@@ -974,6 +1064,12 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
           _novelMeta, novel.isAcceptableOrUnknown(data['novel'], _novelMeta));
     } else if (isInserting) {
       context.missing(_novelMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number'], _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -1000,7 +1096,7 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
 
 class Episode extends DataClass implements Insertable<Episode> {
   final int id;
-  final int novel;
+  final String novel;
   final int number;
   final int chapter;
   final String title;
@@ -1030,7 +1126,8 @@ class Episode extends DataClass implements Insertable<Episode> {
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Episode(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      novel: intType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
+      novel:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}novel']),
       number: intType.mapFromDatabaseResponse(data['${effectivePrefix}number']),
       chapter:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}chapter']),
@@ -1056,7 +1153,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || novel != null) {
-      map['novel'] = Variable<int>(novel);
+      map['novel'] = Variable<String>(novel);
     }
     if (!nullToAbsent || number != null) {
       map['number'] = Variable<int>(number);
@@ -1124,7 +1221,7 @@ class Episode extends DataClass implements Insertable<Episode> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Episode(
       id: serializer.fromJson<int>(json['id']),
-      novel: serializer.fromJson<int>(json['novel']),
+      novel: serializer.fromJson<String>(json['novel']),
       number: serializer.fromJson<int>(json['number']),
       chapter: serializer.fromJson<int>(json['chapter']),
       title: serializer.fromJson<String>(json['title']),
@@ -1141,7 +1238,7 @@ class Episode extends DataClass implements Insertable<Episode> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'novel': serializer.toJson<int>(novel),
+      'novel': serializer.toJson<String>(novel),
       'number': serializer.toJson<int>(number),
       'chapter': serializer.toJson<int>(chapter),
       'title': serializer.toJson<String>(title),
@@ -1156,7 +1253,7 @@ class Episode extends DataClass implements Insertable<Episode> {
 
   Episode copyWith(
           {int id,
-          int novel,
+          String novel,
           int number,
           int chapter,
           String title,
@@ -1237,7 +1334,7 @@ class Episode extends DataClass implements Insertable<Episode> {
 
 class EpisodesCompanion extends UpdateCompanion<Episode> {
   final Value<int> id;
-  final Value<int> novel;
+  final Value<String> novel;
   final Value<int> number;
   final Value<int> chapter;
   final Value<String> title;
@@ -1262,7 +1359,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
   });
   EpisodesCompanion.insert({
     this.id = const Value.absent(),
-    @required int novel,
+    @required String novel,
     @required int number,
     this.chapter = const Value.absent(),
     this.title = const Value.absent(),
@@ -1277,7 +1374,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
         body = Value(body);
   static Insertable<Episode> custom({
     Expression<int> id,
-    Expression<int> novel,
+    Expression<String> novel,
     Expression<int> number,
     Expression<int> chapter,
     Expression<String> title,
@@ -1305,7 +1402,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
 
   EpisodesCompanion copyWith(
       {Value<int> id,
-      Value<int> novel,
+      Value<String> novel,
       Value<int> number,
       Value<int> chapter,
       Value<String> title,
@@ -1337,7 +1434,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       map['id'] = Variable<int>(id.value);
     }
     if (novel.present) {
-      map['novel'] = Variable<int>(novel.value);
+      map['novel'] = Variable<String>(novel.value);
     }
     if (number.present) {
       map['number'] = Variable<int>(number.value);
@@ -1402,11 +1499,11 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
   }
 
   final VerificationMeta _novelMeta = const VerificationMeta('novel');
-  GeneratedIntColumn _novel;
+  GeneratedTextColumn _novel;
   @override
-  GeneratedIntColumn get novel => _novel ??= _constructNovel();
-  GeneratedIntColumn _constructNovel() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get novel => _novel ??= _constructNovel();
+  GeneratedTextColumn _constructNovel() {
+    return GeneratedTextColumn(
       'novel',
       $tableName,
       false,
@@ -2856,8 +2953,11 @@ class $NovelDetailsTable extends NovelDetails
   @override
   GeneratedTextColumn get novel => _novel ??= _constructNovel();
   GeneratedTextColumn _constructNovel() {
-    return GeneratedTextColumn('novel', $tableName, false,
-        minTextLength: 1, maxTextLength: 10);
+    return GeneratedTextColumn(
+      'novel',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _bigGenreMeta = const VerificationMeta('bigGenre');

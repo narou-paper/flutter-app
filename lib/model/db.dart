@@ -19,6 +19,7 @@ class Novels extends Table {
   TextColumn get writerNickname => text().withLength(min: 1, max: 100)();
   IntColumn get writer => integer()();
   TextColumn get story => text().nullable()();
+  BoolColumn get isR18 => boolean()();
   BoolColumn get isSerial => boolean()();
   IntColumn get readEpisodeCount => integer().withDefault(const Constant(0))();
   IntColumn get maxEpisodeNum => integer()();
@@ -29,13 +30,14 @@ class Novels extends Table {
 
 class Chapters extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get novel => integer()();
+  TextColumn get novel => text()();
+  IntColumn get number => integer()();
   TextColumn get name => text().withLength(min: 1, max: 500)();
 }
 
 class Episodes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get novel => integer()();
+  TextColumn get novel => text()();
   IntColumn get number => integer()();
   IntColumn get chapter => integer().nullable()();
   TextColumn get title => text().withLength(min: 1, max: 500).nullable()();
@@ -70,7 +72,7 @@ enum RequiredKeyWord {
 }
 
 class NovelDetails extends Table {
-  TextColumn get novel => text().withLength(min: 1, max: 10)();
+  TextColumn get novel => text()();
   IntColumn get bigGenre => intEnum<BigGenre>()();
   IntColumn get genre => intEnum<Genre>()();
   DateTimeColumn get firstPublicationDate => dateTime()();
@@ -182,6 +184,10 @@ class NarouDatabase extends _$NarouDatabase {
   Stream<List<Novel>> get novelListStream => select(novels).watch();
 
   Future<int> addNovel(NovelsCompanion novel) => into(novels).insert(novel);
+  Future<int> addChapter(ChaptersCompanion chapter) =>
+      into(chapters).insert(chapter);
+  Future<int> addEpisode(EpisodesCompanion episode) =>
+      into(episodes).insert(episode);
   // Future updateTodo(Todo todo) => update(todos).replace(todo);
   // Future deleteTodo(int id) =>
   //     (delete(todos)..where((todo) => todo.id.equals(id))).go();

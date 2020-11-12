@@ -6,28 +6,31 @@ void main() {
   const ncodeShanfro = 'n6169dz';
   const ncodeGirlsMonster = 'n9297fq';
 
+  final client = NarouClient('test');
+  final wait = () => Future.delayed(Duration(milliseconds: 500));
+
   group('Narou', () {
     group('request()', () {
       test('by not R18, returns 200 status code', () async {
-        await Future.delayed(Duration(seconds: 1));
-        var response = await NarouClient.request(ncodeShanfro, false);
+        await wait();
+        var response = await client.request(ncodeShanfro, false);
         expect(response.statusCode, 200);
       });
 
       test('by R18, returns 200 status code', () async {
-        await Future.delayed(Duration(seconds: 1));
-        var response = await NarouClient.request(ncodeGirlsMonster, true);
+        await wait();
+        var response = await client.request(ncodeGirlsMonster, true);
         expect(response.statusCode, 200);
       });
     });
 
     group('firstRequest()', () {
-      NarouFirstResponse firstResponse;
+      FirstResponse firstResponse;
 
       group('by not R18,', () {
         setUp(() async {
-          await Future.delayed(Duration(seconds: 1));
-          firstResponse = await NarouClient.firstRequest(ncodeShanfro);
+          await wait();
+          firstResponse = await client.firstRequest(ncodeShanfro);
         });
 
         test('returns 200 status code', () {
@@ -41,8 +44,8 @@ void main() {
 
       group('by R18,', () {
         setUp(() async {
-          await Future.delayed(Duration(seconds: 1));
-          firstResponse = await NarouClient.firstRequest(ncodeGirlsMonster);
+          await wait();
+          firstResponse = await client.firstRequest(ncodeGirlsMonster);
         });
 
         test('returns 200 status code', () {

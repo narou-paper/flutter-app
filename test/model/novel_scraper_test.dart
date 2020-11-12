@@ -10,13 +10,18 @@ void main() {
   const ncodeHoge = 'n6832gk';
   const hogeTitle = '通りすがりの猫女';
   const hogeWriterNickName = 'レムウェル';
+  const ncodeSS = 'n8273ds';
+  const ssTitle = '転生者の私に挑んでくる無謀で有望な少女の話';
+  const ssWriterName = '小東のら';
+
+  final wait = () => Future.delayed(Duration(milliseconds: 500));
 
   group('NovelScraper', () {
     group('scrape() returns correct Novel', () {
       Novel novel;
 
       setUp(() async {
-        await Future.delayed(Duration(milliseconds: 500));
+        await wait();
         novel = await NovelScraper(ncodeShanfro).scrape();
       });
 
@@ -30,7 +35,7 @@ void main() {
     });
     test('scrape() returns correct Novel writerNickmane when really nickname',
         () async {
-      await Future.delayed(Duration(milliseconds: 500));
+      await wait();
       var novel = await NovelScraper(ncodeHoge).scrape();
       expect(novel.writerNickname, hogeWriterNickName);
     });
