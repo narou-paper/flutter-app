@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:narou_paper/repository/novel.dart';
+import 'package:narou_paper/view/episode_list.dart';
 import 'package:provider/provider.dart';
 import 'package:narou_paper/model/db.dart';
 
@@ -50,7 +51,8 @@ class NovelListTile extends StatelessWidget {
       title: Text(novel.title),
       subtitle: Text(subtitle),
       trailing: Icon(Icons.more_vert),
-      onTap: () {},
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => EpisodeListPage())),
     );
   }
 }
