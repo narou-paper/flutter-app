@@ -21,7 +21,7 @@ class NovelScraper {
     final document = parse(response.body);
     final novel = _parseNovel(document, isR18);
     if (novel.isSerial)
-      await _parseEpisodesAndChapters(document, isR18);
+      _parseEpisodesAndChapters(document, isR18);
     else {
       final episode =
           EpisodeScraper(ncode, 1, isR18, baseScope).parseEpisode(document);
@@ -74,7 +74,7 @@ class NovelScraper {
         chapterId = await _parseChapter(element, chapterNum);
       } else {
         episodeNum += 1;
-        _parseEpisode(episodeNum, chapterId, isR18);
+        await _parseEpisode(episodeNum, chapterId, isR18);
       }
     }
   }
@@ -86,7 +86,7 @@ class NovelScraper {
         name: Value(element.text),
       ));
 
-  void _parseEpisode(int number, int chapterId, bool isR18) async {
+  Future _parseEpisode(int number, int chapterId, bool isR18) async {
     final episode = await EpisodeScraper(
       ncode,
       number,
