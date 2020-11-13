@@ -182,9 +182,10 @@ class NarouDatabase extends _$NarouDatabase {
   //       ..orderBy([(novel) => OrderingTerm.desc(novelDetails.updatedAt)]))
   //     .watch();
   Stream<List<Novel>> get novelListStream => select(novels).watch();
-  Stream<List<Episode>> episodeListStream(String ncode) =>
-      (select(episodes)..where((episode) => episode.novel.equals(ncode)))
-          .watch();
+  Stream<List<Episode>> episodeListStream(String ncode) => (select(episodes)
+        ..where((episode) => episode.novel.equals(ncode))
+        ..orderBy([(episode) => OrderingTerm.asc(episode.number)]))
+      .watch();
 
   Future<int> addNovel(NovelsCompanion novel) => into(novels).insert(novel);
   Future<int> addChapter(ChaptersCompanion chapter) =>

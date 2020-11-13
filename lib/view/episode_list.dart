@@ -71,7 +71,7 @@ class EpisodeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(episode.title),
-      subtitle: Text(episode.postedAt?.toString()),
+      subtitle: Text(episode.postedAt.toString()),
       trailing: Icon(Icons.more_vert),
       onTap: () {},
     );

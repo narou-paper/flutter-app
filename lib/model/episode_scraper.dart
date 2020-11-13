@@ -23,16 +23,20 @@ class EpisodeScraper {
   }
 
   Episode parseEpisode(dom.Document document) {
+    final novelColorElement =
+        document.querySelector('#novel_contents > #novel_color');
+    final title = novelColorElement.querySelector('.novel_subtitle').text;
+
     return Episode(
       id: null,
       novel: ncode,
       number: number,
       chapter: chapterId,
-      title: 'hoge',
+      title: title,
       foreword: null,
       body: 'hoge',
       afterword: null,
-      postedAt: null,
+      postedAt: DateTime.now(),
       fixedAt: null,
       illustCount: null,
     );

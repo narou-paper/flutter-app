@@ -94,6 +94,6 @@ class NovelScraper {
       baseScope,
       chapterId: chapterId,
     ).scrape();
-    NarouDatabase().addEpisode(episode.toCompanion(false));
+    NarouDatabase().addEpisode(episode.toCompanion(true));
   }
 }
