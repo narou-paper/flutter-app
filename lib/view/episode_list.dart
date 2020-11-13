@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:narou_paper/model/db.dart';
 
 class EpisodeListPage extends StatelessWidget {
+  final String ncode;
+
+  EpisodeListPage(this.ncode);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: CustomScrollView(
@@ -17,16 +21,20 @@ class EpisodeListPage extends StatelessWidget {
               pinned: false,
               snap: false,
             ),
-            _EpisodeList(),
+            _EpisodeList(ncode),
           ],
         ),
       );
 }
 
 class _EpisodeList extends StatelessWidget {
+  final String ncode;
+
+  _EpisodeList(this.ncode);
+
   @override
   Widget build(BuildContext context) => StreamProvider<List<Episode>>.value(
-        value: EpisodesRepository.episodeListStream,
+        value: EpisodesRepository.episodeListStream(ncode),
         child: Builder(
           builder: (BuildContext context) {
             final episodeList = context.watch<List<Episode>>();

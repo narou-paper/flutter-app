@@ -51,8 +51,8 @@ class NovelListTile extends StatelessWidget {
       title: Text(novel.title),
       subtitle: Text(subtitle),
       trailing: Icon(Icons.more_vert),
-      onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => EpisodeListPage())),
+      onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => EpisodeListPage(novel.ncode))),
     );
   }
 }
