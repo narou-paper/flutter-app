@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:narou_paper/repository/episode.dart';
+import 'package:narou_paper/view/episode_webview.dart';
 import 'package:provider/provider.dart';
+
 import 'package:narou_paper/model/db.dart';
+import 'package:narou_paper/repository/episode.dart';
 
 class EpisodeListPage extends StatelessWidget {
   final String ncode;
@@ -73,7 +75,8 @@ class EpisodeListTile extends StatelessWidget {
       title: Text(episode.title),
       subtitle: Text(episode.postedAt.toString()),
       trailing: Icon(Icons.more_vert),
-      onTap: () {},
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => EpisodeWebView(episode))),
     );
   }
 }
