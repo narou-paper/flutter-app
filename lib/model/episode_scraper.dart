@@ -35,6 +35,7 @@ class EpisodeScraper {
       title: title,
       foreword: null,
       body: 'hoge',
+      bodyHtml: novelColorElement.innerHtml,
       afterword: null,
       postedAt: DateTime.now(),
       fixedAt: null,

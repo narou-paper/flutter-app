@@ -1102,6 +1102,7 @@ class Episode extends DataClass implements Insertable<Episode> {
   final String title;
   final String foreword;
   final String body;
+  final String bodyHtml;
   final String afterword;
   final DateTime postedAt;
   final DateTime fixedAt;
@@ -1114,6 +1115,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       this.title,
       this.foreword,
       @required this.body,
+      @required this.bodyHtml,
       this.afterword,
       this.postedAt,
       this.fixedAt,
@@ -1136,6 +1138,8 @@ class Episode extends DataClass implements Insertable<Episode> {
       foreword: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}foreword']),
       body: stringType.mapFromDatabaseResponse(data['${effectivePrefix}body']),
+      bodyHtml: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}body_html']),
       afterword: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}afterword']),
       postedAt: dateTimeType
@@ -1170,6 +1174,9 @@ class Episode extends DataClass implements Insertable<Episode> {
     if (!nullToAbsent || body != null) {
       map['body'] = Variable<String>(body);
     }
+    if (!nullToAbsent || bodyHtml != null) {
+      map['body_html'] = Variable<String>(bodyHtml);
+    }
     if (!nullToAbsent || afterword != null) {
       map['afterword'] = Variable<String>(afterword);
     }
@@ -1201,6 +1208,9 @@ class Episode extends DataClass implements Insertable<Episode> {
           ? const Value.absent()
           : Value(foreword),
       body: body == null && nullToAbsent ? const Value.absent() : Value(body),
+      bodyHtml: bodyHtml == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bodyHtml),
       afterword: afterword == null && nullToAbsent
           ? const Value.absent()
           : Value(afterword),
@@ -1227,6 +1237,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       title: serializer.fromJson<String>(json['title']),
       foreword: serializer.fromJson<String>(json['foreword']),
       body: serializer.fromJson<String>(json['body']),
+      bodyHtml: serializer.fromJson<String>(json['bodyHtml']),
       afterword: serializer.fromJson<String>(json['afterword']),
       postedAt: serializer.fromJson<DateTime>(json['postedAt']),
       fixedAt: serializer.fromJson<DateTime>(json['fixedAt']),
@@ -1244,6 +1255,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       'title': serializer.toJson<String>(title),
       'foreword': serializer.toJson<String>(foreword),
       'body': serializer.toJson<String>(body),
+      'bodyHtml': serializer.toJson<String>(bodyHtml),
       'afterword': serializer.toJson<String>(afterword),
       'postedAt': serializer.toJson<DateTime>(postedAt),
       'fixedAt': serializer.toJson<DateTime>(fixedAt),
@@ -1259,6 +1271,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           String title,
           String foreword,
           String body,
+          String bodyHtml,
           String afterword,
           DateTime postedAt,
           DateTime fixedAt,
@@ -1271,6 +1284,7 @@ class Episode extends DataClass implements Insertable<Episode> {
         title: title ?? this.title,
         foreword: foreword ?? this.foreword,
         body: body ?? this.body,
+        bodyHtml: bodyHtml ?? this.bodyHtml,
         afterword: afterword ?? this.afterword,
         postedAt: postedAt ?? this.postedAt,
         fixedAt: fixedAt ?? this.fixedAt,
@@ -1286,6 +1300,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           ..write('title: $title, ')
           ..write('foreword: $foreword, ')
           ..write('body: $body, ')
+          ..write('bodyHtml: $bodyHtml, ')
           ..write('afterword: $afterword, ')
           ..write('postedAt: $postedAt, ')
           ..write('fixedAt: $fixedAt, ')
@@ -1310,11 +1325,13 @@ class Episode extends DataClass implements Insertable<Episode> {
                           $mrjc(
                               body.hashCode,
                               $mrjc(
-                                  afterword.hashCode,
+                                  bodyHtml.hashCode,
                                   $mrjc(
-                                      postedAt.hashCode,
-                                      $mrjc(fixedAt.hashCode,
-                                          illustCount.hashCode)))))))))));
+                                      afterword.hashCode,
+                                      $mrjc(
+                                          postedAt.hashCode,
+                                          $mrjc(fixedAt.hashCode,
+                                              illustCount.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1326,6 +1343,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           other.title == this.title &&
           other.foreword == this.foreword &&
           other.body == this.body &&
+          other.bodyHtml == this.bodyHtml &&
           other.afterword == this.afterword &&
           other.postedAt == this.postedAt &&
           other.fixedAt == this.fixedAt &&
@@ -1340,6 +1358,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
   final Value<String> title;
   final Value<String> foreword;
   final Value<String> body;
+  final Value<String> bodyHtml;
   final Value<String> afterword;
   final Value<DateTime> postedAt;
   final Value<DateTime> fixedAt;
@@ -1352,6 +1371,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     this.title = const Value.absent(),
     this.foreword = const Value.absent(),
     this.body = const Value.absent(),
+    this.bodyHtml = const Value.absent(),
     this.afterword = const Value.absent(),
     this.postedAt = const Value.absent(),
     this.fixedAt = const Value.absent(),
@@ -1365,13 +1385,15 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     this.title = const Value.absent(),
     this.foreword = const Value.absent(),
     @required String body,
+    @required String bodyHtml,
     this.afterword = const Value.absent(),
     this.postedAt = const Value.absent(),
     this.fixedAt = const Value.absent(),
     this.illustCount = const Value.absent(),
   })  : novel = Value(novel),
         number = Value(number),
-        body = Value(body);
+        body = Value(body),
+        bodyHtml = Value(bodyHtml);
   static Insertable<Episode> custom({
     Expression<int> id,
     Expression<String> novel,
@@ -1380,6 +1402,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     Expression<String> title,
     Expression<String> foreword,
     Expression<String> body,
+    Expression<String> bodyHtml,
     Expression<String> afterword,
     Expression<DateTime> postedAt,
     Expression<DateTime> fixedAt,
@@ -1393,6 +1416,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       if (title != null) 'title': title,
       if (foreword != null) 'foreword': foreword,
       if (body != null) 'body': body,
+      if (bodyHtml != null) 'body_html': bodyHtml,
       if (afterword != null) 'afterword': afterword,
       if (postedAt != null) 'posted_at': postedAt,
       if (fixedAt != null) 'fixed_at': fixedAt,
@@ -1408,6 +1432,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       Value<String> title,
       Value<String> foreword,
       Value<String> body,
+      Value<String> bodyHtml,
       Value<String> afterword,
       Value<DateTime> postedAt,
       Value<DateTime> fixedAt,
@@ -1420,6 +1445,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       title: title ?? this.title,
       foreword: foreword ?? this.foreword,
       body: body ?? this.body,
+      bodyHtml: bodyHtml ?? this.bodyHtml,
       afterword: afterword ?? this.afterword,
       postedAt: postedAt ?? this.postedAt,
       fixedAt: fixedAt ?? this.fixedAt,
@@ -1451,6 +1477,9 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     if (body.present) {
       map['body'] = Variable<String>(body.value);
     }
+    if (bodyHtml.present) {
+      map['body_html'] = Variable<String>(bodyHtml.value);
+    }
     if (afterword.present) {
       map['afterword'] = Variable<String>(afterword.value);
     }
@@ -1476,6 +1505,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
           ..write('title: $title, ')
           ..write('foreword: $foreword, ')
           ..write('body: $body, ')
+          ..write('bodyHtml: $bodyHtml, ')
           ..write('afterword: $afterword, ')
           ..write('postedAt: $postedAt, ')
           ..write('fixedAt: $fixedAt, ')
@@ -1567,6 +1597,18 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
     );
   }
 
+  final VerificationMeta _bodyHtmlMeta = const VerificationMeta('bodyHtml');
+  GeneratedTextColumn _bodyHtml;
+  @override
+  GeneratedTextColumn get bodyHtml => _bodyHtml ??= _constructBodyHtml();
+  GeneratedTextColumn _constructBodyHtml() {
+    return GeneratedTextColumn(
+      'body_html',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _afterwordMeta = const VerificationMeta('afterword');
   GeneratedTextColumn _afterword;
   @override
@@ -1623,6 +1665,7 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
         title,
         foreword,
         body,
+        bodyHtml,
         afterword,
         postedAt,
         fixedAt,
@@ -1671,6 +1714,12 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
           _bodyMeta, body.isAcceptableOrUnknown(data['body'], _bodyMeta));
     } else if (isInserting) {
       context.missing(_bodyMeta);
+    }
+    if (data.containsKey('body_html')) {
+      context.handle(_bodyHtmlMeta,
+          bodyHtml.isAcceptableOrUnknown(data['body_html'], _bodyHtmlMeta));
+    } else if (isInserting) {
+      context.missing(_bodyHtmlMeta);
     }
     if (data.containsKey('afterword')) {
       context.handle(_afterwordMeta,

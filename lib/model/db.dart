@@ -43,6 +43,7 @@ class Episodes extends Table {
   TextColumn get title => text().withLength(min: 1, max: 500).nullable()();
   TextColumn get foreword => text().nullable()();
   TextColumn get body => text()();
+  TextColumn get bodyHtml => text()();
   TextColumn get afterword => text().nullable()();
   DateTimeColumn get postedAt => dateTime().nullable()();
   DateTimeColumn get fixedAt => dateTime().nullable()();
