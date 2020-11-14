@@ -7,7 +7,7 @@ void main() {
   const ncodeShanfro = 'n6169dz';
   const shanfroEpisode1Title = '貴方はなんのためにゲームをしますか？';
   const shanfroEpisode1BodyHtmlStart = '''
-
+<div id="novel_color">
 
 
 
@@ -42,8 +42,8 @@ void main() {
         expect(episode.title, shanfroEpisode1Title);
       });
 
-      test('bodyHtml', () {
-        expect(episode.bodyHtml, startsWith(shanfroEpisode1BodyHtmlStart));
+      test('html', () {
+        expect(episode.html, startsWith(shanfroEpisode1BodyHtmlStart));
       });
     });
   });

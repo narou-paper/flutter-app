@@ -1102,7 +1102,7 @@ class Episode extends DataClass implements Insertable<Episode> {
   final String title;
   final String foreword;
   final String body;
-  final String bodyHtml;
+  final String html;
   final String afterword;
   final DateTime postedAt;
   final DateTime fixedAt;
@@ -1115,7 +1115,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       this.title,
       this.foreword,
       @required this.body,
-      @required this.bodyHtml,
+      @required this.html,
       this.afterword,
       this.postedAt,
       this.fixedAt,
@@ -1138,8 +1138,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       foreword: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}foreword']),
       body: stringType.mapFromDatabaseResponse(data['${effectivePrefix}body']),
-      bodyHtml: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}body_html']),
+      html: stringType.mapFromDatabaseResponse(data['${effectivePrefix}html']),
       afterword: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}afterword']),
       postedAt: dateTimeType
@@ -1174,8 +1173,8 @@ class Episode extends DataClass implements Insertable<Episode> {
     if (!nullToAbsent || body != null) {
       map['body'] = Variable<String>(body);
     }
-    if (!nullToAbsent || bodyHtml != null) {
-      map['body_html'] = Variable<String>(bodyHtml);
+    if (!nullToAbsent || html != null) {
+      map['html'] = Variable<String>(html);
     }
     if (!nullToAbsent || afterword != null) {
       map['afterword'] = Variable<String>(afterword);
@@ -1208,9 +1207,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           ? const Value.absent()
           : Value(foreword),
       body: body == null && nullToAbsent ? const Value.absent() : Value(body),
-      bodyHtml: bodyHtml == null && nullToAbsent
-          ? const Value.absent()
-          : Value(bodyHtml),
+      html: html == null && nullToAbsent ? const Value.absent() : Value(html),
       afterword: afterword == null && nullToAbsent
           ? const Value.absent()
           : Value(afterword),
@@ -1237,7 +1234,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       title: serializer.fromJson<String>(json['title']),
       foreword: serializer.fromJson<String>(json['foreword']),
       body: serializer.fromJson<String>(json['body']),
-      bodyHtml: serializer.fromJson<String>(json['bodyHtml']),
+      html: serializer.fromJson<String>(json['html']),
       afterword: serializer.fromJson<String>(json['afterword']),
       postedAt: serializer.fromJson<DateTime>(json['postedAt']),
       fixedAt: serializer.fromJson<DateTime>(json['fixedAt']),
@@ -1255,7 +1252,7 @@ class Episode extends DataClass implements Insertable<Episode> {
       'title': serializer.toJson<String>(title),
       'foreword': serializer.toJson<String>(foreword),
       'body': serializer.toJson<String>(body),
-      'bodyHtml': serializer.toJson<String>(bodyHtml),
+      'html': serializer.toJson<String>(html),
       'afterword': serializer.toJson<String>(afterword),
       'postedAt': serializer.toJson<DateTime>(postedAt),
       'fixedAt': serializer.toJson<DateTime>(fixedAt),
@@ -1271,7 +1268,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           String title,
           String foreword,
           String body,
-          String bodyHtml,
+          String html,
           String afterword,
           DateTime postedAt,
           DateTime fixedAt,
@@ -1284,7 +1281,7 @@ class Episode extends DataClass implements Insertable<Episode> {
         title: title ?? this.title,
         foreword: foreword ?? this.foreword,
         body: body ?? this.body,
-        bodyHtml: bodyHtml ?? this.bodyHtml,
+        html: html ?? this.html,
         afterword: afterword ?? this.afterword,
         postedAt: postedAt ?? this.postedAt,
         fixedAt: fixedAt ?? this.fixedAt,
@@ -1300,7 +1297,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           ..write('title: $title, ')
           ..write('foreword: $foreword, ')
           ..write('body: $body, ')
-          ..write('bodyHtml: $bodyHtml, ')
+          ..write('html: $html, ')
           ..write('afterword: $afterword, ')
           ..write('postedAt: $postedAt, ')
           ..write('fixedAt: $fixedAt, ')
@@ -1325,7 +1322,7 @@ class Episode extends DataClass implements Insertable<Episode> {
                           $mrjc(
                               body.hashCode,
                               $mrjc(
-                                  bodyHtml.hashCode,
+                                  html.hashCode,
                                   $mrjc(
                                       afterword.hashCode,
                                       $mrjc(
@@ -1343,7 +1340,7 @@ class Episode extends DataClass implements Insertable<Episode> {
           other.title == this.title &&
           other.foreword == this.foreword &&
           other.body == this.body &&
-          other.bodyHtml == this.bodyHtml &&
+          other.html == this.html &&
           other.afterword == this.afterword &&
           other.postedAt == this.postedAt &&
           other.fixedAt == this.fixedAt &&
@@ -1358,7 +1355,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
   final Value<String> title;
   final Value<String> foreword;
   final Value<String> body;
-  final Value<String> bodyHtml;
+  final Value<String> html;
   final Value<String> afterword;
   final Value<DateTime> postedAt;
   final Value<DateTime> fixedAt;
@@ -1371,7 +1368,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     this.title = const Value.absent(),
     this.foreword = const Value.absent(),
     this.body = const Value.absent(),
-    this.bodyHtml = const Value.absent(),
+    this.html = const Value.absent(),
     this.afterword = const Value.absent(),
     this.postedAt = const Value.absent(),
     this.fixedAt = const Value.absent(),
@@ -1385,7 +1382,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     this.title = const Value.absent(),
     this.foreword = const Value.absent(),
     @required String body,
-    @required String bodyHtml,
+    @required String html,
     this.afterword = const Value.absent(),
     this.postedAt = const Value.absent(),
     this.fixedAt = const Value.absent(),
@@ -1393,7 +1390,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
   })  : novel = Value(novel),
         number = Value(number),
         body = Value(body),
-        bodyHtml = Value(bodyHtml);
+        html = Value(html);
   static Insertable<Episode> custom({
     Expression<int> id,
     Expression<String> novel,
@@ -1402,7 +1399,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     Expression<String> title,
     Expression<String> foreword,
     Expression<String> body,
-    Expression<String> bodyHtml,
+    Expression<String> html,
     Expression<String> afterword,
     Expression<DateTime> postedAt,
     Expression<DateTime> fixedAt,
@@ -1416,7 +1413,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       if (title != null) 'title': title,
       if (foreword != null) 'foreword': foreword,
       if (body != null) 'body': body,
-      if (bodyHtml != null) 'body_html': bodyHtml,
+      if (html != null) 'html': html,
       if (afterword != null) 'afterword': afterword,
       if (postedAt != null) 'posted_at': postedAt,
       if (fixedAt != null) 'fixed_at': fixedAt,
@@ -1432,7 +1429,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       Value<String> title,
       Value<String> foreword,
       Value<String> body,
-      Value<String> bodyHtml,
+      Value<String> html,
       Value<String> afterword,
       Value<DateTime> postedAt,
       Value<DateTime> fixedAt,
@@ -1445,7 +1442,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
       title: title ?? this.title,
       foreword: foreword ?? this.foreword,
       body: body ?? this.body,
-      bodyHtml: bodyHtml ?? this.bodyHtml,
+      html: html ?? this.html,
       afterword: afterword ?? this.afterword,
       postedAt: postedAt ?? this.postedAt,
       fixedAt: fixedAt ?? this.fixedAt,
@@ -1477,8 +1474,8 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
     if (body.present) {
       map['body'] = Variable<String>(body.value);
     }
-    if (bodyHtml.present) {
-      map['body_html'] = Variable<String>(bodyHtml.value);
+    if (html.present) {
+      map['html'] = Variable<String>(html.value);
     }
     if (afterword.present) {
       map['afterword'] = Variable<String>(afterword.value);
@@ -1505,7 +1502,7 @@ class EpisodesCompanion extends UpdateCompanion<Episode> {
           ..write('title: $title, ')
           ..write('foreword: $foreword, ')
           ..write('body: $body, ')
-          ..write('bodyHtml: $bodyHtml, ')
+          ..write('html: $html, ')
           ..write('afterword: $afterword, ')
           ..write('postedAt: $postedAt, ')
           ..write('fixedAt: $fixedAt, ')
@@ -1597,13 +1594,13 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
     );
   }
 
-  final VerificationMeta _bodyHtmlMeta = const VerificationMeta('bodyHtml');
-  GeneratedTextColumn _bodyHtml;
+  final VerificationMeta _htmlMeta = const VerificationMeta('html');
+  GeneratedTextColumn _html;
   @override
-  GeneratedTextColumn get bodyHtml => _bodyHtml ??= _constructBodyHtml();
-  GeneratedTextColumn _constructBodyHtml() {
+  GeneratedTextColumn get html => _html ??= _constructHtml();
+  GeneratedTextColumn _constructHtml() {
     return GeneratedTextColumn(
-      'body_html',
+      'html',
       $tableName,
       false,
     );
@@ -1665,7 +1662,7 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
         title,
         foreword,
         body,
-        bodyHtml,
+        html,
         afterword,
         postedAt,
         fixedAt,
@@ -1715,11 +1712,11 @@ class $EpisodesTable extends Episodes with TableInfo<$EpisodesTable, Episode> {
     } else if (isInserting) {
       context.missing(_bodyMeta);
     }
-    if (data.containsKey('body_html')) {
-      context.handle(_bodyHtmlMeta,
-          bodyHtml.isAcceptableOrUnknown(data['body_html'], _bodyHtmlMeta));
+    if (data.containsKey('html')) {
+      context.handle(
+          _htmlMeta, html.isAcceptableOrUnknown(data['html'], _htmlMeta));
     } else if (isInserting) {
-      context.missing(_bodyHtmlMeta);
+      context.missing(_htmlMeta);
     }
     if (data.containsKey('afterword')) {
       context.handle(_afterwordMeta,

@@ -1,50 +1,42 @@
-import 'dart:io';
+import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'package:narou_paper/view_model/episode_webview.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:narou_paper/model/db.dart';
+import 'package:narou_paper/view_model/episode_webview.dart';
 
-class EpisodeWebView extends StatefulWidget {
+class EpisodeWebView extends StatelessWidget {
   final Episode initialEpisode;
 
   EpisodeWebView(this.initialEpisode);
 
   @override
-  State<StatefulWidget> createState() => EpisodeWebViewState(initialEpisode);
-}
-
-class EpisodeWebViewState extends State<EpisodeWebView> {
-  final Episode initialEpisode;
-
-  EpisodeWebViewState(this.initialEpisode);
-
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-  }
-
-  @override
   Widget build(BuildContext context) =>
       ChangeNotifierProvider<EpisodeWebViewViewModel>(
         create: (_) => EpisodeWebViewViewModel(initialEpisode),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('hoge'),
+        child: Builder(
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: Text(
+                context.watch<EpisodeWebViewViewModel>().episode.title,
+                maxLines: 3,
+              ),
+            ),
+            body: Builder(builder: (BuildContext context) {
+              final uri = context.select(
+                (EpisodeWebViewViewModel viewModel) => viewModel.episodeUri,
+              );
+              return WebView(
+                initialUrl: 'about:blank',
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (WebViewController webViewController) =>
+                    webViewController.loadUrl(uri.toString()),
+              );
+            }),
           ),
-          body: Builder(builder: (BuildContext context) {
-            final uri = context.select(
-                (EpisodeWebViewViewModel viewModel) => viewModel.episodeUri);
-            return WebView(
-              initialUrl: 'about:blank',
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) =>
-                  webViewController.loadUrl(uri.toString()),
-            );
-          }),
         ),
       );
 }
