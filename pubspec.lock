@@ -221,6 +221,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webview_plugin:
+    dependency: "direct main"
+    description:
+      name: flutter_webview_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.11"
   glob:
     dependency: transitive
     description:
@@ -611,13 +618,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  webview_flutter:
-    dependency: "direct main"
-    description:
-      name: webview_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.7"
   win32:
     dependency: transitive
     description:
@@ -641,4 +641,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.10.0 <=2.11.0-213.1.beta"
-  flutter: ">=1.22.0 <2.0.0"
+  flutter: ">=1.16.0 <2.0.0"
