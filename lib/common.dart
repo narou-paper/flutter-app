@@ -1,3 +1,3 @@
 class Settings {
-  static const paperDomain = 'http://172.23.5.72:3000';
+  static const paperDomain = 'http://192.168.3.6:3000';
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!-- デファルトの設定 -->
+    <base-config cleartextTrafficPermitted="true" />
+    <!-- ドメイン毎の設定 -->
 <!--    <domain-config cleartextTrafficPermitted="true">-->
-<!--        <domain includeSubdomains="true">172.23.5.72</domain>-->
+<!--        <domain includeSubdomains="true">chino-laptop.local</domain>-->
 <!--    </domain-config>-->
 </network-security-config>
