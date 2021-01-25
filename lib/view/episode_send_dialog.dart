@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:narou_paper/common.dart';
 
 import 'package:narou_paper/model/db.dart';
+import 'package:narou_paper/view_model/episode_html_builder.dart';
+import 'package:narou_paper/view_model/picture_generator.dart';
 
 class EpisodeSendDialog extends StatelessWidget {
   final Episode episode;
@@ -26,6 +28,7 @@ class EpisodeSendDialog extends StatelessWidget {
               await http.post(Uri.parse(Settings.paperDomain), body: {
                 'bodyHtml': episode.html,
               });
+              await generatePictures(EpisodeHtmlBuilder.build(episode.html));
               Navigator.of(context).pop();
             },
           ),
