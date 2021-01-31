@@ -3,8 +3,8 @@ class EpisodeHtmlBuilder {
       {bool vertically = true, bool isSerif = true}) {
     // final borderOrLeft = vertically ? 'left' : 'border';
     // final topOrRight = vertically ? 'right' : 'top';
-    const sansSerif = "'Noto Serif JP', serif";
-    const serif = "'メイリオ', 'Meiryo', sans-serif";
+    const sansSerif = "'メイリオ', 'Meiryo', sans-serif";
+    const serif = "'Noto Serif JP', serif";
     final font = isSerif ? serif : sansSerif;
     return '''
 <html lang="ja">
@@ -27,6 +27,7 @@ class EpisodeHtmlBuilder {
     }
     
     #novel {
+      margin: 0;
       writing-mode: vertical-rl;
       text-orientation: upright;
       
@@ -34,28 +35,30 @@ class EpisodeHtmlBuilder {
       block-size: 100vw;
       /* text-combine-upright: digits 2; */
   
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
+      display: block;
       font-size: 2vh;
       color: black;
+      column-count: 1;
     }
     
     .novel_subtitle {
+      margin: 0;
       font-size: 1.5em;
       text-align: center;
     }
     
     #novel_p {
-        border-left: 3px double;
-        padding-left: 15px;
-        border-right: 3px double;
-        padding-right: 15px;
+      margin: 0;
+      border-left: 3px double;
+      padding-left: 15px;
+      border-right: 3px double;
+      padding-right: 15px;
     }
     
     #novel_a {
-        border-right: 3px double;
-        padding-right: 15px;
+      margin: 0;
+      border-right: 3px double;
+      padding-right: 15px;
     }
     
     p {

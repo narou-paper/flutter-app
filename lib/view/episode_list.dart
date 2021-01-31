@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:narou_paper/view/episode_send_dialog.dart';
+import 'package:narou_paper/view/episode_sending_dialog.dart';
 import 'package:narou_paper/view/episode_webview.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +79,7 @@ class EpisodeListTile extends StatelessWidget {
         icon: Icon(Icons.send),
         onPressed: () => showDialog(
           context: context,
-          builder: (BuildContext context) => EpisodeSendDialog(episode),
+          builder: (BuildContext context) => EpisodeSendingDialog(episode),
         ),
       ),
       onTap: () => Navigator.of(context)
