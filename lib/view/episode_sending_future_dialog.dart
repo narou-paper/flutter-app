@@ -27,20 +27,25 @@ class EpisodeSendingFutureDialog extends StatelessWidget {
   Widget build(BuildContext context) => FutureBuilder(
         future: sendEpisodeToPaper(episode, _hogeNovel),
         builder: (context, AsyncSnapshot<http.Response> snapshot) {
-          developer.log('snapshot', error: snapshot.data);
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(
               child: CircularProgressIndicator(),
             );
           else if (snapshot.error != null)
             return _ErrorDialog(snapshot.error);
-          else if (snapshot.data.statusCode == 200)
+          else if (snapshot.data != null && snapshot.data.statusCode == 200)
             return _FinishedDialog(snapshot.data.body);
           else
-            return _ErrorDialog({
-              'status code': snapshot.data.statusCode,
-              'body': snapshot.data.body,
-            });
+            return _ErrorDialog(
+              (snapshot.data != null)
+                  ? {
+                      'status code': snapshot.data.statusCode,
+                      'body': (snapshot.data.body.length > 100)
+                          ? snapshot.data.body.substring(0, 100)
+                          : snapshot.data.body,
+                    }
+                  : {'error': 'タイムアウトしました'},
+            );
         },
       );
 }
@@ -81,14 +86,16 @@ class _ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AlertDialog(
         title: Text('エラー'),
-        content: Column(
-          children: <Widget>[
-            Text('データ転送時にエラーが発生しました'),
-            Text(
-              error.toString(),
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Text('データ転送時にエラーが発生しました'),
+              Text(
+                error.toString(),
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
+          ),
         ),
         actions: <Widget>[
           TextButton(

@@ -52,7 +52,17 @@ Future<http.Response> sendEpisodeToPaper(
           ),
         ));
   developer.log('request created', error: request);
-  final response = await http.Response.fromStream(await request.send());
-  developer.log('response created', error: response);
-  return response;
+  try {
+    final response = await http.Response.fromStream(
+      await request.send().timeout(const Duration(seconds: 100)),
+    );
+    developer.log('response finished', error: response);
+    return response;
+  } catch (e) {
+    developer.log('request error', error: request);
+    return null;
+  }
+  // request.send().then(
+  //     (responce) => developer.log('statuscode', error: responce.statusCode));
+  // return await http.get('https://www.google.com');
 }
