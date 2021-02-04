@@ -11,7 +11,7 @@ class EpisodeWebViewViewModel extends ChangeNotifier {
   EpisodeWebViewViewModel(this.episode);
 
   Uri get episodeUri => Uri.dataFromString(
-        EpisodeHtmlBuilder.build(episode.html, true),
+        EpisodeHtmlBuilder.build(episode.html),
         mimeType: 'text/html',
         encoding: utf8,
       );

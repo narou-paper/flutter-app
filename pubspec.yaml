@@ -32,6 +32,7 @@ dependencies:
   http: ^0.12.2
   html: ^0.14.0+4
   webview_flutter: ^1.0.7
+  printing: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

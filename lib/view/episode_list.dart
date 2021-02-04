@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narou_paper/view/episode_sending_dialog.dart';
 import 'package:narou_paper/view/episode_webview.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +75,13 @@ class EpisodeListTile extends StatelessWidget {
     return ListTile(
       title: Text(episode.title),
       subtitle: Text(episode.postedAt.toString()),
-      trailing: Icon(Icons.more_vert),
+      trailing: IconButton(
+        icon: Icon(Icons.send),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) => EpisodeSendingDialog(episode),
+        ),
+      ),
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => EpisodeWebView(episode))),
     );
