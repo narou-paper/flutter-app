@@ -187,6 +187,8 @@ class NarouDatabase extends _$NarouDatabase {
         ..where((episode) => episode.novel.equals(ncode))
         ..orderBy([(episode) => OrderingTerm.asc(episode.number)]))
       .watch();
+  Future<Novel> novel(String ncode) =>
+      (select(novels)..where((novel) => novel.ncode.equals(ncode))).getSingle();
 
   Future<int> addNovel(NovelsCompanion novel) => into(novels).insert(novel);
   Future<int> addChapter(ChaptersCompanion chapter) =>

@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:narou_paper/repository/novel.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -21,10 +22,8 @@ Stream<ui.Image> generateImagesFromEpisode(Episode episode) async* {
   yield* Printing.raster(pdf).asyncMap((page) => page.toImage());
 }
 
-Future<http.Response> sendEpisodeToPaper(
-  Episode episode,
-  Novel novel,
-) async {
+Future<http.Response> sendEpisodeToPaper(Episode episode) async {
+  final novel = await NovelsRepository.novel(episode.novel);
   final url = Uri.parse(Settings.paperDomain);
   final request = http.MultipartRequest('POST', url)
     ..fields['title'] = novel.title

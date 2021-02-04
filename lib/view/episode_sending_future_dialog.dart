@@ -8,24 +8,11 @@ import 'package:narou_paper/view_model/send_episode.dart';
 class EpisodeSendingFutureDialog extends StatelessWidget {
   final Episode episode;
 
-  final _hogeNovel = Novel(
-    ncode: 'n1234ab',
-    ncodeInt: null,
-    title: 'title',
-    writerNickname: 'nickname',
-    writer: 0,
-    story: null,
-    isR18: false,
-    isSerial: true,
-    readEpisodeCount: 0,
-    maxEpisodeNum: 10,
-  );
-
   EpisodeSendingFutureDialog(this.episode);
 
   @override
   Widget build(BuildContext context) => FutureBuilder(
-        future: sendEpisodeToPaper(episode, _hogeNovel),
+        future: sendEpisodeToPaper(episode),
         builder: (context, AsyncSnapshot<http.Response> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(
