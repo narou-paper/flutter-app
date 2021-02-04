@@ -18,37 +18,40 @@ class EpisodeHtmlBuilder {
       font-family: $font;
     }
     
-    html {
+    body {
+      writing-mode: vertical-rl;
+      text-orientation: upright;
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     
-    body {
+    @page {
+      size: A4;
       margin: 0;
     }
     
     #novel {
-      margin: 0;
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      
-      inline-size: 100vh;
-      block-size: 100vw;
-      /* text-combine-upright: digits 2; */
-  
-      display: block;
-      font-size: 2vh;
-      color: black;
-      column-count: 1;
+      font-size: 13mm;
     }
     
     .novel_subtitle {
-      margin: 0;
       font-size: 1.5em;
       text-align: center;
+      margin: 0 1em;
+    }
+    
+    p {
+      line-height: 1.8em;
+      color: black;
+      font-family: "Noto", serif;
+      margin: 0;
+      padding: 0;
     }
     
     #novel_p {
       margin: 0;
+      padding: 0;
       border-left: 3px double;
       padding-left: 15px;
       border-right: 3px double;
@@ -57,16 +60,9 @@ class EpisodeHtmlBuilder {
     
     #novel_a {
       margin: 0;
+      padding: 0;
       border-right: 3px double;
       padding-right: 15px;
-    }
-    
-    p {
-      display: block;
-      margin: 0;
-      inline-size: 95vh;
-      padding-inline: 2.5vh;
-      padding-block: 1em;
     }
   </style>
 </head>
