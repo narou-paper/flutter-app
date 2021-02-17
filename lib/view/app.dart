@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 import 'package:narou_paper/view_model/app.dart';
-import 'database_rebuild_dialog.dart';
+import 'database_clear_dialog.dart';
+import 'insert_test_data_dialog.dart';
 import 'novel_import_dialog.dart';
 import 'novel_list.dart';
 
@@ -80,24 +81,37 @@ class _DrawerWidget extends StatelessWidget {
         ),
       ];
 
-  Widget _debugListTile(BuildContext context) => ListTile(
-        leading: const Icon(Icons.delete_forever),
-        title: const Text('Delete Database'),
-        onTap: () {
-          Navigator.pop(context);
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => DatabaseRebuildDialog(),
-          );
-        },
-      );
+  List<Widget> _debugWidgets(BuildContext context) => <Widget>[
+        ListTile(
+          leading: const Icon(Icons.delete_forever),
+          title: const Text('Delete Database'),
+          onTap: () {
+            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => DatabaseClearDialog(),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.library_books),
+          title: const Text('Insert Test Data'),
+          onTap: () {
+            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => InsertTestDataDialog(),
+            );
+          },
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) => Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: _drawerWidgets(context) +
-              [foundation.kDebugMode ? _debugListTile(context) : null],
+              (foundation.kDebugMode ? _debugWidgets(context) : null),
         ),
       );
 }
