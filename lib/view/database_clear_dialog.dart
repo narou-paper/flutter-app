@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:narou_paper/model/db.dart';
 
-class DatabaseRebuildDialog extends StatelessWidget {
+class DatabaseClearDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AlertDialog(
         title: Text('データベース初期化'),
