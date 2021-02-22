@@ -10,63 +10,55 @@ class EpisodeHtmlBuilder {
 <html lang="ja">
 
 <head>
-  <link href="template.css" rel="stylesheet" type="text/css">
   <meta charset="utf-8">
   <title>title</title>
   <style>
     @font-face {
-      font-family: $font;
+      font-family: serif;
     }
     
     html {
-      margin: 0;
+        margin: 0;
     }
-    
     body {
-      margin: 0;
+        margin: 0;
     }
-    
     #novel {
-      margin: 0;
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      
-      inline-size: 100vh;
-      block-size: 100vw;
-      /* text-combine-upright: digits 2; */
-  
-      display: block;
-      font-size: 2vh;
-      color: black;
-      column-count: 1;
+        writing-mode: vertical-rl;
+        // text-orientation: upright;
+        
+        inline-size: 100vh;
+        block-size: 100vw;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        font-size: 4vh;
     }
-    
+    #novel_no,#novel_bn {
+      display: none;
+    }
     .novel_subtitle {
-      margin: 0;
-      font-size: 1.5em;
+      display: block;
+      font-size: 3em;
+      block-size: 95vh;
       text-align: center;
     }
-    
-    #novel_p {
-      margin: 0;
-      border-left: 3px double;
-      padding-left: 15px;
-      border-right: 3px double;
-      padding-right: 15px;
-    }
-    
-    #novel_a {
-      margin: 0;
-      border-right: 3px double;
-      padding-right: 15px;
+    #novel_honbun, #novel_p, #novel_a  {
+      inline-size: 100vh;
+      block-size: 100vw;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
     }
     
     p {
-      display: block;
-      margin: 0;
-      inline-size: 95vh;
-      padding-inline: 2.5vh;
-      padding-block: 1em;
+        display: block;
+        color: black;
+        font-family: serif;
+        margin: 0;
+        inline-size: 95vh;
+        padding-inline: 2.5vh;
+        padding-block: 0;
     }
   </style>
 </head>

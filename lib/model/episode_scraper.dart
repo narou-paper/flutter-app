@@ -25,6 +25,11 @@ class EpisodeScraper {
   Episode parseEpisode(dom.Document document) {
     final novelColorElement =
         document.querySelector('#novel_contents > #novel_color');
+    // final novelPHtml = novelColorElement.querySelector('#novel_p').innerHtml;
+    // final novelHonbunHtml =
+    //     novelColorElement.querySelector('#novel_honbun').innerHtml;
+    // final novelAHtml = novelColorElement.querySelector('#novel_a').innerHtml;
+    // final html = [novelPHtml, novelHonbunHtml, novelAHtml].join('\n');
     final title = novelColorElement.querySelector('.novel_subtitle').text;
 
     return Episode(
