@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io' as io;
 import 'dart:ui' as ui;
 import 'dart:developer' as developer;
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -19,6 +21,8 @@ Stream<ui.Image> generateImagesFromEpisode(Episode episode) async* {
     format: PdfPageFormat(540, 816),
     html: EpisodeHtmlBuilder.build(episode.html),
   );
+  // final output = await getExternalStorageDirectory();
+  // await io.File('${output.path}/m5paper.pdf').writeAsBytes(pdf);
   yield* Printing.raster(pdf).asyncMap((page) => page.toImage());
 }
 
