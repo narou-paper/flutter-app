@@ -1,4 +1,4 @@
-# narou_paper
+# narou-paper-android
 
 「小説家になろう」の小説を電子ペーパーで読むためのFlutter製アプリ
 
