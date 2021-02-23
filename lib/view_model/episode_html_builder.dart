@@ -34,7 +34,7 @@ class EpisodeHtmlBuilder {
         flex-wrap: wrap;
         font-size: 4vh;
     }
-    #novel_no,#novel_bn {
+    #novel_no, .novel_bn {
       display: none;
     }
     .novel_subtitle {
