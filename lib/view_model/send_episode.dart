@@ -50,7 +50,8 @@ Future<http.Response> sendEpisodeToPaper(Episode episode) async {
           http.MultipartFile.fromBytes(
             (index + 1).toString(),
             intListImage,
-            filename: '[$novelTitle $episodeNum] $episodeTitle.$index.png',
+            filename: '[$novelTitle $episodeNum] $episodeTitle.$index.png'
+                .replaceAll('/', '-'),
             contentType: MediaType('application', 'png'),
           ),
         ));
